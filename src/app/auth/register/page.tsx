@@ -6,18 +6,28 @@ import { useState } from "react";
 
 export default function LoginPage() {
   const [inputIsValid, setInputIsValid] = useState<boolean>(false);
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    if (email?.length > 0 && password?.length > 0) setInputIsValid(true);
-    else setInputIsValid(false);
-  };
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-    if (email?.length > 0 && password?.length > 0) setInputIsValid(true);
-    else setInputIsValid(false);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const response = await fetch("http://my-api:800/register", {
+      method: "POST",
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        password,
+      }),
+    });
+
+    console.log(response.json());
   };
 
   return (
@@ -58,7 +68,7 @@ export default function LoginPage() {
             or continue with email
           </label>
 
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col justify-start items-start gap-4 w-full">
                 <label htmlFor="firstName">First Name</label>
@@ -68,8 +78,8 @@ export default function LoginPage() {
                   className="w-full h-[56px] rounded-[4px] border-[1px] border-[#98A2B3] p-[14px]"
                   placeholder="Enter your first name"
                   required
-                  value={email}
-                  onChange={handleEmailChange}
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </div>
 
@@ -81,8 +91,8 @@ export default function LoginPage() {
                   className="w-full h-[56px] rounded-[4px] border-[1px] border-[#98A2B3] p-[14px]"
                   placeholder="Enter your last name"
                   required
-                  value={password}
-                  onChange={handlePasswordChange}
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </div>
 
@@ -95,7 +105,7 @@ export default function LoginPage() {
                   placeholder="your@email.com"
                   required
                   value={email}
-                  onChange={handleEmailChange}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -107,8 +117,8 @@ export default function LoginPage() {
                   className="w-full h-[56px] rounded-[4px] border-[1px] border-[#98A2B3] p-[14px]"
                   placeholder="Enter phone number"
                   required
-                  value={password}
-                  onChange={handlePasswordChange}
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
                 />
               </div>
 
@@ -121,7 +131,7 @@ export default function LoginPage() {
                   placeholder="At least eight characters"
                   required
                   value={password}
-                  onChange={handlePasswordChange}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
 
@@ -133,8 +143,8 @@ export default function LoginPage() {
                   className="w-full h-[56px] rounded-[4px] border-[1px] border-[#98A2B3] p-[14px]"
                   placeholder="Re-enter Password"
                   required
-                  value={password}
-                  onChange={handlePasswordChange}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
             </div>
@@ -155,6 +165,7 @@ export default function LoginPage() {
             </div>
 
             <button
+              type="submit"
               disabled={!inputIsValid}
               className="w-full h-[56px] rounded-[4px] flex items-center justify-center gap-4 bg-[#0D6EFD] text-white disabled:bg-[#E7F0FF] disabled:text-[#98A2B3] disabled:cursor-not-allowed"
             >

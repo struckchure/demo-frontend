@@ -20,6 +20,20 @@ export default function LoginPage() {
     else setInputIsValid(false);
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const response = await fetch("http://my-api:800/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    console.log(response.json());
+  };
+
   return (
     <div className="w-full h-full flex">
       <section className="w-1/2 h-full px-20 py-10 flex flex-col gap-20">
@@ -60,7 +74,7 @@ export default function LoginPage() {
             or continue with email
           </label>
 
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="flex flex-col justify-start items-start gap-4 w-full">
               <label htmlFor="email">Email</label>
               <input

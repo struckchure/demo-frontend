@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function LoginPage() {
-  const [inputIsValid, setInputIsValid] = useState<boolean>(false);
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -166,7 +165,6 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              disabled={!inputIsValid}
               className="w-full h-[56px] rounded-[4px] flex items-center justify-center gap-4 bg-[#0D6EFD] text-white disabled:bg-[#E7F0FF] disabled:text-[#98A2B3] disabled:cursor-not-allowed"
             >
               Sign up
